@@ -1,17 +1,15 @@
 import hou
 
-NAME = 'crowd_setup'
+OBJ = hou.node('/obj')
 
-#aNode = hou.selectedNodes()[0]
+geometry = OBJ.createNode('geo', 'name')
+selectedNode = hou.selectedNodes()[0]
 
-geo_node = hou.node('/obj/' + NAME)
+print("".join(selectedNode.path()))
 
-if not geo_node:
-   #obj_path = hou.node('/obj')
-    geo_node = hou.node('/obj').createNode('geo', NAME)
-    #null_node = geo_node.createNode('sphere', 'AGENT')
-    agent_node = geo_node.createNode('agent', 'agent')
-    agent_node_parm = agent_node.parm('objsubnet')
-    agent_node_parm.set('Hi Hans')
-    agentclip_node = agent_node.createOutputNode('agentclip::2.0')
-    
+sphere_node = geometry.createNode('sphere', 'mySphere')
+xform_node = sphere_node.createOutputNode('xform', 'myXform')
+agent_node = xform_node.createOutputNode('agent', 'myAgent')
+agent_node.setParms({"agentname":"Hans", "currentclip":"walk", "objsubnet":"".join(selectedNode.path())})
+
+agent_node.setDisplayFlag(True)
