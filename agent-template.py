@@ -15,5 +15,8 @@ agentclip_node = agent_node.createOutputNode('agentclip::2.0', 'agentclip_walk')
 agentclip_node.setParms({'name1':'Walk','setcurrentclip':'1', 'currentclip':'Walk', 'objsubnet1':  ''.join(agent2.path())})
 
 
-agentclip_node.setDisplayFlag(True)
-agentclip_node.setRenderFlag(True)
+crowdsource_node = agentclip_node.createOutputNode('crowdsource')
+
+out_node = crowdsource_node.createOutputNode('null', 'OUT')
+out_node.setDisplayFlag(True)
+out_node.setRenderFlag(True)
