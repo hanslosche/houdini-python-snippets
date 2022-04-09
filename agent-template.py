@@ -1,15 +1,19 @@
-import hou
+import hou 
 
-OBJ = hou.node('/obj')
 
-geometry = OBJ.createNode('geo', 'name')
-selectedNode = hou.selectedNodes()[0]
+obj = hou.node('/obj')
+geometry = obj.createNode('geo', 'crowd_source')
 
-print("".join(selectedNode.path()))
+agent1 = hou.selectedNodes()[0]
+agent2 = hou.selectedNodes()[1]
 
-sphere_node = geometry.createNode('sphere', 'mySphere')
-xform_node = sphere_node.createOutputNode('xform', 'myXform')
-agent_node = xform_node.createOutputNode('agent', 'myAgent')
-agent_node.setParms({"agentname":"Hans", "currentclip":"walk", "objsubnet":"".join(selectedNode.path())})
 
-agent_node.setDisplayFlag(True)
+agent_node = geometry.createNode('agent', 'myAgent')
+agent_node.setParms({'agentname':'human_test', 'clipname':'Rest', 'currentclip':'Rest', 'objsubnet': ''.join(agent1.path())})
+
+agentclip_node = agent_node.createOutputNode('agentclip::2.0', 'agentclip_walk')
+agentclip_node.setParms({'name1':'Walk','setcurrentclip':'1', 'currentclip':'Walk', 'objsubnet1':  ''.join(agent2.path())})
+
+
+agentclip_node.setDisplayFlag(True)
+agentclip_node.setRenderFlag(True)
